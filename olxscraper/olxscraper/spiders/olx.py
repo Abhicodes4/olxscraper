@@ -7,7 +7,7 @@ class OlxSpider(scrapy.Spider):
     start_urls = ["https://www.olx.in/kozhikode_g4058877/for-rent-houses-apartments_c1723"]
 
     def parse(self, response):
-        property_links = response.css('li[data-aut-id="itemBox"] a._2cbZ2::attr(href)').extract()
+        property_links = response.css('li[data-aut-id="itemBox"] a::attr(href)').extract()
         for link in property_links:
             yield response.follow(link, self.parse_property)
         
@@ -21,11 +21,11 @@ class OlxSpider(scrapy.Spider):
                 'property_id': response.css('div._1-oS0 ::text')[-2].get(),
                 'breadcrumbs': response.css('a._26_tZ::text').extract(),
                 'amount': response.css('span[data-aut-id="itemPrice"]::text').get(),
-                'image_url': ,
-                'description': ,
-                'seller_name': ,
-                'location': ,
-                'property_type': ,
-                'bathrooms': ,
-                'bedrooms': ,
-            }
+                'image_url': response.css('figure img::attr(src)').get(),
+                'description': response.css('div[data-aut-id="itemDescriptionContent"] p::text').get(),
+                'seller_name': response.css('div.eHFQs::text').get(),
+                'location': response.css('div._3Uj8e span::text').get(),
+                'property_type': response.css('span[data-aut-id="value_type"] ::text').get(),
+                'bathrooms': response.css('span[data-aut-id="value_rooms"] ::text').get(),
+                'bedrooms': response.css('span[data-aut-id="value_bathrooms"] ::text').get(),
+             }
