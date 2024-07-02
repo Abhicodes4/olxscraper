@@ -15,7 +15,7 @@ NEWSPIDER_MODULE = "olxscraper.spiders"
 from shutil import which
 
 SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = '/path/to/chromedriver'
+SELENIUM_DRIVER_EXECUTABLE_PATH = r'C:\Program Files (x86)\chromedriver.exe' # Path of chromedriver in my PC 
 SELENIUM_DRIVER_ARGUMENTS = ['-headless']
 
 DOWNLOADER_MIDDLEWARES = {
