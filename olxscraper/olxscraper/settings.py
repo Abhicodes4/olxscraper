@@ -12,6 +12,16 @@ BOT_NAME = "olxscraper"
 SPIDER_MODULES = ["olxscraper.spiders"]
 NEWSPIDER_MODULE = "olxscraper.spiders"
 
+from shutil import which
+
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = '/path/to/chromedriver'
+SELENIUM_DRIVER_ARGUMENTS = ['-headless']
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_selenium.SeleniumMiddleware': 800
+}
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "olxscraper (+http://www.yourdomain.com)"
