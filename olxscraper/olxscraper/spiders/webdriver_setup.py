@@ -1,9 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from scrapy.utils.project import get_project_settings
 
 def get_driver():
-    service = Service(ChromeDriverManager().install())
+    settings = get_project_settings()
+    service = Service(settings.get('SELENIUM_DRIVER_EXECUTABLE_PATH'))
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  
     driver = webdriver.Chrome(service=service, options=options)
