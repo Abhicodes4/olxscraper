@@ -17,15 +17,14 @@ class OlxSpider(scrapy.Spider):
         for link in property_links:
             yield response.follow(link, self.parse_property)
 
+        selenium_driver = response.meta['driver']
         try:
-            yield SeleniumRequest(
-                url=response.url,
-                callback=self.parse,
-                wait_time=12,
-                wait_until=lambda driver: driver.find_element_by_css_selector('button[data-aut-id="btnLoadMore"]').click()
-            )
+            load_more_button = selenium_driver.find_element_by_css_selector('button[data-aut-id="btnLoadMore"]')
+            selenium_driver.execute_script("arguments[0].click();", load_more_button)
+            yield SeleniumRequest(url=selenium_driver.current_url, callback=self.parse, wait_time=10, driver=selenium_driver)
         except Exception as e:
-                self.logger.error(f"Error loading more items: {e}")
+            self.logger.error(f"Error clicking 'Load More' button: {e}")
+
             
     
     def parse_property(self, response):
@@ -42,4 +41,3 @@ class OlxSpider(scrapy.Spider):
             'bathrooms': response.css('span[data-aut-id="value_rooms"] ::text').get(),
             'bedrooms': response.css('span[data-aut-id="value_bathrooms"] ::text').get(),
         }
-
