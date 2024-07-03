@@ -23,9 +23,8 @@ class OlxSpider(scrapy.Spider):
     def start_requests(self):
         driver = webdriver.Chrome()  
         for url in self.start_urls:
-            crawlbase_url = f"https://api.crawlbase.com/?token=_JS_TOKEN_&url=https%3A%2F%2Fgithub.com%2Fcrawlbase%3Ftab%3Drepositories"
             yield SeleniumRequest(
-                url=crawlbase_url,
+                url=url,
                 callback=self.parse,
                 wait_time=15,
                 meta={'driver': driver}
