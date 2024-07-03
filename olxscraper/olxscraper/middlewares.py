@@ -101,3 +101,26 @@ class OlxscraperDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+from scrapy_selenium import SeleniumMiddleware
+from scrapy.http import HtmlResponse
+
+class SeleniumMiddleware(SeleniumMiddleware):
+    def __init__(self, driver_name, driver_executable_path):
+        self.driver_name = driver_name
+        self.driver_executable_path = driver_executable_path
+
+    def process_request(self, request, spider):
+        # Create a new Selenium driver instance
+        driver = self.driver()
+        driver.get(request.url)
+
+        # Get the HTML content from the Selenium driver
+        html = driver.page_source
+
+        # Close the Selenium driver instance
+        driver.quit()
+
+        # Return the HTML content as a Scrapy response
+        return HtmlResponse(url=request.url, body=html, encoding='utf-8')

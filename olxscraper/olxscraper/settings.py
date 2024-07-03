@@ -1,3 +1,8 @@
+from shutil import which
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+
+
 # Scrapy settings for olxscraper project
 #
 # For simplicity, this file contains only settings considered important or
@@ -12,15 +17,19 @@ BOT_NAME = "olxscraper"
 SPIDER_MODULES = ["olxscraper.spiders"]
 NEWSPIDER_MODULE = "olxscraper.spiders"
 
-from shutil import which
 
-SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = r'C:\Program Files (x86)\chromedriver.exe' # Path of chromedriver in my PC 
-SELENIUM_DRIVER_ARGUMENTS = ['-headless']
 
 DOWNLOADER_MIDDLEWARES = {
-    'scrapy_selenium.SeleniumMiddleware': 800
+    'olxscraper.middlewares.SeleniumMiddleware': 800
 }
+
+SELENIUM_DRIVER_NAME = 'chrome'
+ELENIUM_DRIVER_EXECUTABLE_PATH = 'C:\Program Files (x86)\chromedriver.exe'
+SELENIUM_DRIVER_ARGUMENTS = ['-headless']
+
+SELENIUM_REQUEST_ENABLED = True
+
+
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
